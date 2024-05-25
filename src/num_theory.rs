@@ -88,6 +88,14 @@ pub fn prime_to_index(prime: usize) -> usize {
 }
 
 pub fn factorize(n: usize) -> BTreeMap<usize, usize> {
+    {
+        let cache = PRIME_CACHE.lock().unwrap();
+        if cache.prime_to_index.contains_key(&n) {
+            let mut factors = BTreeMap::new();
+            factors.insert(n, 1);
+            return factors;
+        }
+    }
     let mut factors = BTreeMap::new();
     let mut n = n;
     let max_relevant_prime = (n as f64).sqrt().ceil() as usize;

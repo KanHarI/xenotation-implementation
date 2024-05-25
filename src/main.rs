@@ -32,7 +32,7 @@ fn main() {
         println!("{}: {}", i, representation);
     }
 
-    for m in [10, 100, 1000, 10000, 100000, 1000000, 10000000].iter() {
+    for m in [10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000].iter() {
         let average = calculate_average_representation_over_ln(&mut cache, *m);
         println!(
             "Average representation length over ln for m = 1..{}: {}",
