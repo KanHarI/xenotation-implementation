@@ -1,7 +1,7 @@
 # A library for Xenotation implementation
 
 ```
-cargo run --release > Readme.md
+cargo run --release
 ```
 
 ```

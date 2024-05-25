@@ -1,5 +1,5 @@
 use lazy_static::lazy_static;
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 use std::sync::Mutex;
 
 struct PrimeCache {
@@ -77,8 +77,8 @@ pub fn prime_to_index(prime: usize) -> usize {
     *cache.prime_to_index.get(&prime).unwrap()
 }
 
-pub fn factorize(n: usize) -> HashMap<usize, usize> {
-    let mut factors = HashMap::new();
+pub fn factorize(n: usize) -> BTreeMap<usize, usize> {
+    let mut factors = BTreeMap::new();
     let mut n = n;
     let max_relevant_prime = (n as f64).sqrt().ceil() as usize;
     populate_primes_up_to(max_relevant_prime);

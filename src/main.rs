@@ -7,7 +7,7 @@ fn calculate_average_representation_over_ln(m: usize) -> f64 {
     let mut sum = 0.0;
 
     for n in 1..=m {
-        let xeno = Xenotation::int_to_xenotation(n);  // Convert n to its Xenotation form
+        let xeno = Xenotation::int_to_xenotation(&n);  // Convert n to its Xenotation form
         let representation = Xenotation::stringify(&xeno);  // Get string representation
         let length = representation.len() as f64;  // Convert length to f64
         let log_n = (n as f64).ln();  // Natural logarithm of n
@@ -26,7 +26,7 @@ fn calculate_average_representation_over_ln(m: usize) -> f64 {
 
 fn main() {
     for i in 1..=100 {
-        let xeno = Xenotation::int_to_xenotation(i);
+        let xeno = Xenotation::int_to_xenotation(&i);
         let representation = Xenotation::stringify(&xeno);
         println!("{}: {}", i, representation);
     }
