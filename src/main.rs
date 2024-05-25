@@ -25,6 +25,11 @@ fn calculate_average_representation_over_ln(m: usize) -> f64 {
 
 
 fn main() {
+    for i in 1..=100 {
+        let xeno = Xenotation::int_to_xenotation(i);
+        let representation = Xenotation::stringify(&xeno);
+        println!("{}: {}", i, representation);
+    }
     for m in [10, 100, 1000, 10000, 100000, 1000000].iter() {
         let average = calculate_average_representation_over_ln(*m);
         println!("Average representation length over ln for m = 1..{}: {}", m, average);
