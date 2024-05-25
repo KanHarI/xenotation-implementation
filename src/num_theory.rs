@@ -19,7 +19,10 @@ lazy_static! {
     });
 }
 
-fn _is_prime(n: usize, primes: &[usize]) -> bool {
+fn _is_prime(n: usize, primes: &[usize], cache_populated_up_to: &usize, primes_to_idx: &HashMap<usize, usize>) -> bool {
+    if cache_populated_up_to >= &n {
+        return primes_to_idx.contains_key(&n);
+    }
     for &prime in primes {
         if prime * prime > n {
             break;
@@ -36,7 +39,9 @@ pub fn populate_primes_up_to(n: usize) {
     let mut candidate = cache.primes.last().unwrap() + 2;
     while candidate <= n {
         let primes = cache.primes.clone(); // Clone the list of primes
-        if _is_prime(candidate, &primes) {
+        let primes_to_idx = &cache.prime_to_index;
+        let cache_populated_up_to = cache.primes.last().unwrap();
+        if _is_prime(candidate, &primes, cache_populated_up_to, primes_to_idx) {
             let prime_len = cache.primes.len();
             cache.prime_to_index.insert(candidate, prime_len);
             cache.primes.push(candidate);
@@ -50,7 +55,9 @@ pub fn populate_primes_till_count(n: usize) {
     let mut candidate = cache.primes.last().unwrap() + 2;
     while cache.primes.len() < n {
         let primes = cache.primes.clone(); // Clone the list of primes
-        if _is_prime(candidate, &primes) {
+        let primes_to_idx = &cache.prime_to_index;
+        let cache_populated_up_to = cache.primes.last().unwrap();
+        if _is_prime(candidate, &primes, cache_populated_up_to, primes_to_idx) {
             let prime_len = cache.primes.len();
             cache.prime_to_index.insert(candidate, prime_len);
             cache.primes.push(candidate);
@@ -62,7 +69,10 @@ pub fn populate_primes_till_count(n: usize) {
 pub fn is_prime(n: usize) -> bool {
     let max_relevant_prime = (n as f64).sqrt().ceil() as usize;
     populate_primes_up_to(max_relevant_prime);
-    _is_prime(n, &PRIME_CACHE.lock().unwrap().primes)
+    let cache = PRIME_CACHE.lock().unwrap();
+    let primes_to_idx = &cache.prime_to_index;
+    let cache_populated_up_to = cache.primes.last().unwrap();
+    _is_prime(n, &PRIME_CACHE.lock().unwrap().primes, cache_populated_up_to, primes_to_idx)
 }
 
 pub fn index_to_prime(index: usize) -> usize {
